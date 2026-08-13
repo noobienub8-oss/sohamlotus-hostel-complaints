@@ -1,0 +1,25 @@
+[build]
+  publish = "."
+
+# No build step. This is a single static HTML file, which is deliberate:
+# builds are the one thing that costs Netlify credits on every production deploy.
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=()"
+
+# The app shell changes every time you redeploy. Without this, students keep
+# running last week's version off their phone cache and report bugs you fixed.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
